@@ -45,10 +45,10 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
-                        <li><a href="#" onclick="toggleFullScreen()">Full Screen</a></li>
+                        {{-- <li><a href="#" onclick="toggleFullScreen()">Full Screen</a></li> --}}
                         @if (Auth::guest())
                             <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            {{-- <li><a href="{{ route('register') }}">Register</a></li> --}}
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -77,11 +77,19 @@
 
         @yield('content')
 
-        <footer class="row">
-          <div class="col-md-12">
-            <h3 class="text-center">StoreKeeper v 0.0.1</h3>
+      <footer class="row">
+        <div class="app-footer">
+        <div class="container">
+          <div class="col-md-6">
+            <h4 class="text-left">StoreKeeper v 0.0.1</h4>
           </div>
-        </footer>
+          <div class="col-md-6">
+            <h4 class="text-right">Powered By: <a href="http://www.medust.com">MEDUST TECHNOLOGY PVT. LTD.</a></h4>
+          </div>
+        </div>
+        </div>
+      </footer>
+
     </div>
 
     <!-- Scripts -->

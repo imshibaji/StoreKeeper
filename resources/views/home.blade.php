@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-  <div class="row">
+  {{-- <div class="row">
     <div class="col-md-12">
     <ul class="nav navbar-nav">
     <li class="active"><a href="#">Dashboard <span class="sr-only">(current)</span></a></li>
@@ -19,19 +19,19 @@
     <li><a href="#">Settings</a></li>
   </ul>
   </div>
-  </div>
+  </div> --}}
 
     <div class="row">
-        <div class="col-md-3">
+        {{-- <div class="col-md-3">
           <div class="list-group">
             <a href="#" class="list-group-item">Dashboard</a>
             <a href="#" class="list-group-item">Sells</a>
             <a href="#" class="list-group-item">Stocks</a>
             <a href="#" class="list-group-item">Reports</a>
           </div>
-        </div>
+        </div> --}}
 
-        <div class="col-md-9">
+        <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Dashboard</div>
                 <div class="panel-body">

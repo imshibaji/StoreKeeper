@@ -30,7 +30,7 @@
               </td>
               <td>
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Product Name" id="name" name="name" value="{{ old('name') }}">
+                  <input type="text" class="form-control" placeholder="Product Name" id="name" name="name" value="{{ old('name') }}" required>
                 </div>
               </td>
             </tr>
@@ -40,7 +40,7 @@
               </td>
               <td>
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Product Description" id="desc" name="desc" value="{{ old('desc') }}">
+                  <input type="text" class="form-control" placeholder="Product Description" id="desc" name="desc" value="{{ old('desc') }}" required>
                 </div>
               </td>
             </tr>
@@ -50,7 +50,7 @@
               </td>
               <td>
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="No of Units" id="units" name="units" value="{{ old('units') }}">
+                  <input type="text" class="form-control" placeholder="No of Units" id="units" name="units" value="{{ old('units') }}" required>
                 </div>
               </td>
             </tr>
@@ -60,7 +60,7 @@
               </td>
               <td>
                 <div class="input">
-                  <input type="text" class="form-control" placeholder="Unit Purchase Price" id="upurprice" name="upurprice" value="{{ old('upurprice') }}">
+                  <input type="text" class="form-control" placeholder="Unit Purchase Price" id="upurprice" name="upurprice" value="{{ old('upurprice') }}" required>
                 </div>
               </td>
             </tr>
@@ -70,7 +70,7 @@
               </td>
               <td>
                 <div class="input">
-                  <input type="text" class="form-control" placeholder="Total Purchase Amount" id="tamount" name="tamount" value="{{ old('tamount') }}">
+                  <input type="text" class="form-control" placeholder="Total Purchase Amount" id="tamount" name="tamount" value="{{ old('tamount') }}" required>
                 </div>
               </td>
             </tr>
@@ -86,17 +86,18 @@
               </td>
               <td>
                 <div class="input">
-                  <input type="text" class="form-control" placeholder="Unit Sales Price" id="usalprice" name="usalprice" value="{{ old('usalprice') }}">
+                  <input type="text" class="form-control" placeholder="Unit Sales Price" id="usalprice" name="usalprice" value="{{ old('usalprice') }}" readonly>
                 </div>
               </td>
             </tr>
             <tr>
               <td>
-                <h4>Sales Tax:</h4>
+                <h4>Extra Added / Tax:</h4>
               </td>
               <td>
-                <div class="input">
-                  <input type="text" class="form-control" placeholder="Sales Tax" id="tax" name="tax" value="0">
+                <div class="form-inline">
+                  <input type="text" class="form-control" id="tax-percent" placeholder="By %" value="0" size="3" required><span class="input-lg">%</span>
+                  <input type="text" class="form-control" placeholder="Sales Tax" id="tax" name="tax" value="0" readonly>
                 </div>
               </td>
             </tr>
@@ -105,8 +106,9 @@
                 <h4>Sales Discount:</h4>
               </td>
               <td>
-                <div class="input">
-                  <input type="text" class="form-control" placeholder="Sales Discount" id="discount" name="discount" value="0">
+                <div class="form-inline">
+                  <input type="text" class="form-control" id="percent" placeholder="By %" value="0" size="3" required><span class="input-lg">%</span>
+                  <input type="text" class="form-control" placeholder="Sales Discount" id="discount" name="discount" value="0" readonly>
                 </div>
               </td>
             </tr>
@@ -116,7 +118,7 @@
               </td>
               <td>
                 <div class="input">
-                  <input type="text" class="form-control" placeholder="Unit Sales Amount" id="unitsalamt" name="unitsalamt" value="{{ old('unitsalamt') }}">
+                  <input type="text" class="form-control" placeholder="Unit Sales Amount" id="unitsalamt" name="unitsalamt" value="{{ old('unitsalamt') }}" required>
                 </div>
               </td>
             </tr>
@@ -126,7 +128,7 @@
               </td>
               <td>
                 <div class="input">
-                  <input type="text" class="form-control" placeholder="Total Sales Amount" id="totsalamt" name="totsalamt" value="{{ old('totsalamt') }}">
+                  <input type="text" class="form-control" placeholder="Total Sales Amount" id="totsalamt" name="totsalamt" value="{{ old('totsalamt') }}" required>
                 </div>
               </td>
             </tr>
@@ -175,6 +177,12 @@ function printDiv(divName) {
      document.body.innerHTML = originalContents;
 }
 
+$(document).ready(function(){
+  $('#units').val(0);
+  $('#upurprice').val(0);
+  $('#tax-percent').val({{$tax}});
+  calculation();
+});
 
 $('#units').on('keyup keypress blur change',function(){
   calculation();
@@ -184,11 +192,15 @@ $('#upurprice').on('keyup keypress blur change',function(){
   calculation();
 });
 
-$('#tax').on('keyup keypress blur change',function(){
+$('#tax-percent').on('keyup keypress blur change', function(){
   calculation();
 });
 
-$('#discount').on('keyup keypress blur change',function(){
+// $('#tax').on('keyup keypress blur change',function(){
+//   calculation();
+// });
+
+$('#percent').on('keyup keypress blur change',function(){
   calculation();
 });
 
@@ -202,23 +214,30 @@ function calculation(){
   var upurprice = parseFloat($('#upurprice').val());
   var tamount = $('#tamount');
   var usalprice = $('#usalprice');
-  var tax = parseFloat($('#tax').val());
-  var discount = parseFloat($('#discount').val());
+  var taxper = parseFloat($('#tax-percent').val());
+  var taxamt = $('#tax');
+  var percent = parseFloat($('#percent').val());
+  var discamt = $('#discount');
   var unitsalamt = $('#unitsalamt');
   var totsalamt = $('#totsalamt');
 
-  var profit_percent = 40;
+  var profit_percent = {{ $profit }};
   var totalPurchAmount = upurprice * units;
 
   var sale_price = upurprice + (upurprice * profit_percent/100);
 
-  var unit_sale_price = (sale_price + tax) - discount;
+  var tax_per = sale_price * taxper/100;
+
+  var discount = (sale_price + tax_per) * percent/100;
+  var unit_sale_price = (sale_price + tax_per) - discount;
   var total_sale_amount = unit_sale_price * units;
 
   tamount.val(totalPurchAmount);
   usalprice.val(sale_price);
 
   unitsalamt.val(unit_sale_price);
+  taxamt.val(tax_per);
+  discamt.val(discount);
   totsalamt.val(total_sale_amount);
 
   // console.log( units, upurprice, totalPurchAmount, sale_price, unit_sale_price, total_sale_amount);

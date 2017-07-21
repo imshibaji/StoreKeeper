@@ -3,116 +3,92 @@
 @section('content')
 <div class="container">
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-8">
       <h3>Sales Page</h3>
     </div>
-    <div class="col-md-3">
-      <div class="btn-group btn-group-justified">
-        <a href="./view-sales" class="btn btn-info">Details</a>
-        <a href="./dashboard" class="btn btn-primary">Back</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
     <div class="col-md-4">
-      @include('sale.parts.sales-item-add-part')
-    </div>
-
-
-    <div class="col-md-8">
-      {{-- <dl class="dl-horizontal">
-        <dt>Search Sale By ID: </dt>
-        <dd><input type="text" class="form-control input-sm" name="sale-id" value="500" /></dd>
-      </dl> --}}
-
-      <div class="table_header">
-      <table class="table table-bordered" style="margin:0px; padding:0px">
-        <thead>
-          <tr>
-            <th class="col-xs-9">Product Details</th>
-            <th class="col-xs-1">Qnt.</th>
-            <th class="col-xs-2">Price</th>
-          </tr>
-        </thead>
-        <tr>
-          <th>Order Name: ODR#270617</th>
-          <th>&nbsp;</th>
-          <th>&nbsp;</th>
-        </tr>
-      </table>
-      </div>
-
-
-      <div class="items-details" style="margin-top:0px; overflow:auto; height:150px">
-      <table class="table table-bordered">
-        <tbody>
-          <tr>
-            <td class="col-xs-9">Product Title | Product Details</td>
-            <td class="col-xs-1"><input type="number" class="form-control text-right input-sm" name="unit" value="1" /></td>
-            <td class="col-xs-2 text-right">200</td>
-          </tr>
-          <tr>
-            <td>Product Title | Product Details</td>
-            <td><input type="number" class="form-control text-right input-sm" name="unit" value="1" /></td>
-            <td class="text-right">200</td>
-          </tr>
-          <tr>
-            <td>Product Title | Product Details</td>
-            <td><input type="number" class="form-control text-right input-sm" name="unit" value="1" /></td>
-            <td class="text-right">200</td>
-          </tr>
-          <tr>
-            <td>Product Title | Product Details</td>
-            <td><input type="number" class="form-control text-right input-sm" name="unit" value="1" /></td>
-            <td class="text-right">200</td>
-          </tr>
-          <tr>
-            <td>Product Title | Product Details</td>
-            <td><input type="number" class="form-control text-right input-sm" name="unit" value="1" /></td>
-            <td class="text-right">200</td>
-          </tr>
-        </tbody>
-        </table>
-        </div>
-
-
-        <div class="total">
-        <table class="table table-bordered">
-        <tr>
-          <td class="col-xs-9 text-right">Tax</td>
-          <td class="col-xs-2 text-right"><input type="text" class="form-control text-right input-sm" name="tax" value="500" /></td>
-        </tr>
-        <tr>
-          <td class="text-right">Discount</td>
-          <td class="text-right"><input type="text" class="form-control text-right input-sm" name="discount" value="0" /></td>
-        </tr>
-        <tr>
-          <td class="text-right">Total Amount</td>
-          <td class="text-right">20500</td>
-        </tr>
-      </table>
+      <div class="btn-group btn-group-justified">
+        <a class="btn btn-warning" onclick="printDiv('printDiv')">Print Bill</a>
+        <a href="{{url('sales/create')}}" class="btn btn-success">Add Sales</a>
+        <a href="{{url('sales')}}" class="btn btn-info">Details</a>
+        @if (Auth::user()->type == "admin")
+            <a href="{{url('dashboard')}}" class="btn btn-primary">Back</a>
+        @endif
       </div>
     </div>
   </div>
 
-  <div class="col-md-4 col-md-offset-6">
-    <div class="input-group">
-      <span class="input-group-addon">Trasection Mode</span>
-      <select name="tmode" class="form-control">
-        <option value="cash">Cash</option>
-        <option value="card">Card</option>
-        <option value="cheque">Cheque</option>
-      </select>
-    </div>
-  </div>
-  <div class="col-md-2">
-    <div class="input-group text-right">
-      <button class="btn btn-success" type="submit">Save Sales</button>
-      <button class="btn btn-danger" type="submit">Clear</button>
-    </div>
-  </div>
+  <div id="printDiv" class="row">
 
+    <div class="col-md-6" style="float:left">
+      <h1>Invoice</h1>
+    </div>
+    <div class="col-md-6 text-right" style="float:right">
+      <h3>{{$set->business_name}}</h3>
+      <h4>Address: {{$set->business_address}}</h4>
+      <h4>Phone: {{$set->business_phone_no}}</h4>
+      <h4>Ref No: {{$sale->name}}</h4>
+      <h4>Sale ID: {{$sale->id}}</h4>
+    </div>
+
+    <table class="table table-bordered">
+      <tr>
+        <th>Date</th>
+        <th>Detailes</th>
+        <th>Units</th>
+        <th>Amount</th>
+      </tr>
+      @php
+        $details = json_decode($sale->details, true);
+        $cunt = 0;
+      @endphp
+      @foreach ($details as $dt)
+        <tr>
+          <td>
+            {{$sale->created_at}}
+          </td>
+          <td>
+            PID: {{$dt['id']}},
+            Item Name: {{$dt['name']}},
+            Quantity: {{$dt['quantity']}},
+            Tax: {{$dt['attributes']['tax']}},
+            Discount: {{$dt['attributes']['discount']}},
+            Price: {{$dt['price']}},
+        </td>
+        <td>
+          @if ($cunt<1)
+            {{$sale->unit}}
+          @endif
+
+        </td>
+        <td class="text-right">
+          @if ($cunt<1)
+            {{$sale->netAmt}}
+          @endif
+        </td>
+        </tr>
+        @php
+          $cunt++;
+        @endphp
+      @endforeach
+      <tr>
+        <td colspan="3" class="text-right">Tax</td>
+        <td class="text-right">{{$sale->tax}}</td>
+      </tr>
+      <tr>
+        <td colspan="3" class="text-right">Discount</td>
+        <td class="text-right">{{$sale->discount}}</td>
+      </tr>
+      <tr>
+        <td colspan="3" class="text-right">Total</td>
+        <td class="text-right">{{$sale->totalAmt}}</td>
+      </tr>
+      <tr>
+        <td colspan="3" class="text-right">Trasection Mode</td>
+        <td class="text-right">{{$sale->tmode}}</td>
+      </tr>
+    </table>
+  </div>
 
 </div>
 @endsection
@@ -120,6 +96,15 @@
 
 @section('footer-scripts')
 <script>
-//alert('This is sales Main');
+function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
 </script>
 @endsection

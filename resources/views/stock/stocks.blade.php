@@ -32,19 +32,19 @@
             <td class="text-center">
               <h3>{{$stock->created_at}}</h3>
               <div class="row">
-                <div class="col-xs-7">
+                <div class="col-xs-12">
                   <div class="btn-group btn-group-justified">
                     <a href="{{url('stock/'.$stock->id)}}" class="btn btn-success btn-sm btn-block">View</a>
                   <a href="{{url('stock/'.$stock->id.'/edit')}}" class="btn btn-primary btn-sm btn-block">Edit</a>
                   </div>
                 </div>
-                <div class="col-xs-5">
+                {{-- <div class="col-xs-5">
                 <form class="form-group" action="{{url('stock/'.$stock->id)}}" method="post">
                    {{ csrf_field() }}
                    {{ method_field('DELETE') }}
                    <input type="hidden" name="id" value="{{$stock->id}}" />
                   <button type="submit" class="btn btn-danger btn-sm btn-block">Delete</button>
-                </form>
+                </form> --}}
               </div>
             </div>
             </td>

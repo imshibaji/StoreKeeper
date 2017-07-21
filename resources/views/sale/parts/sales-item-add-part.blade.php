@@ -1,7 +1,7 @@
   <h3 class="text-center">Find / Add Item</h3>
   <div class="input-group">
     <span class="input-group-addon">Product ID</span>
-    <input type="text" class="form-control" id="pid" />
+    <input type="text" class="form-control" id="pid" autofocus />
   </div>
   <div class="input-group">
     <span class="input-group-addon">Product Name</span>
@@ -40,7 +40,7 @@
   </div> --}}
 
   <div class="btn-group">
-    <a id="add_item" href="#"class="btn btn-success">Add Product</a>
+    <a id="add_item" class="btn btn-success">Add Product</a>
     <a id="reset_item" class="btn btn-danger">Reset Product</a>
   </div>
 
@@ -49,7 +49,7 @@
 <script>
 $(function(){
   // keyup keypress blur change
-  $('#pid').on('keyup', function(){
+  $('#pid').on('keyup change', function(){
     $.get("{{url('order/get')}}/"+$('#pid').val(), function(data){
       if( data !== '' ){
         console.log(data);

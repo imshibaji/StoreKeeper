@@ -51,7 +51,7 @@
               </td>
               <td>
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="No of Units" id="units" name="units" value="{{ $stock->unit }}">
+                  <input type="text" class="form-control" placeholder="No of Units" id="units" name="units" value="{{ $stock->unit }}" readonly />
                 </div>
               </td>
             </tr>
@@ -61,7 +61,7 @@
               </td>
               <td>
                 <div class="input">
-                  <input type="text" class="form-control" placeholder="Unit Purchase Price" id="upurprice" name="upurprice" value="{{ $stock->unitPurchPrice }}">
+                  <input type="text" class="form-control" placeholder="Unit Purchase Price" id="upurprice" name="upurprice" value="{{ $stock->unitPurchPrice }}" readonly>
                 </div>
               </td>
             </tr>
@@ -71,7 +71,7 @@
               </td>
               <td>
                 <div class="input">
-                  <input type="text" class="form-control" placeholder="Total Purchase Amount" id="tamount" name="tamount" value="{{ $stock->totalPurchAmount }}">
+                  <input type="text" class="form-control" placeholder="Total Purchase Amount" id="tamount" name="tamount" value="{{ $stock->totalPurchAmount }}" readonly>
                 </div>
               </td>
             </tr>
@@ -87,13 +87,13 @@
               </td>
               <td>
                 <div class="input">
-                  <input type="text" class="form-control" placeholder="Unit Sales Price" id="usalprice" name="usalprice" value="{{ $stock->unitSalePrice }}">
+                  <input type="text" class="form-control" placeholder="Unit Sales Price" id="usalprice" name="usalprice" value="{{ $stock->unitSalePrice }}" readonly>
                 </div>
               </td>
             </tr>
             <tr>
               <td>
-                <h4>Sales Tax:</h4>
+                <h4>Extra Added / Tax:</h4>
               </td>
               <td>
                 <div class="input">
@@ -106,8 +106,9 @@
                 <h4>Sales Discount:</h4>
               </td>
               <td>
-                <div class="input">
-                  <input type="text" class="form-control" placeholder="Sales Discount" id="discount" name="discount" value="{{ $stock->saleDisount }}">
+                <div class="form-inline">
+                  <input type="text" class="form-control" id="percent" placeholder="By %" value="0" size="3" required><span class="input-lg">%</span>
+                  <input type="text" class="form-control" placeholder="Sales Discount" id="discount" name="discount" value="{{ $stock->saleDisount }}" readonly>
                 </div>
               </td>
             </tr>
@@ -189,6 +190,10 @@ $('#tax').on('keyup keypress blur change',function(){
   calculation();
 });
 
+$('#percent').on('keyup keypress blur change',function(){
+  calculation();
+});
+
 $('#discount').on('keyup keypress blur change',function(){
   calculation();
 });
@@ -200,19 +205,25 @@ function calculation(){
   var tamount = $('#tamount');
   var usalprice = $('#usalprice');
   var tax = parseFloat($('#tax').val());
-  var discount = parseFloat($('#discount').val());
+  var percent = parseFloat($('#percent').val());
+  var discamt = $('#discount');
   var unitsalamt = $('#unitsalamt');
   var totsalamt = $('#totsalamt');
 
   var profit_percent = 40;
+
   var totalPurchAmount = upurprice * units;
 
   var sale_price = upurprice + (upurprice * profit_percent/100);
+
+
+  var discount = (sale_price + tax) * percent/100;
 
   var unit_sale_price = (sale_price + tax) - discount;
   var total_sale_amount = unit_sale_price * units;
 
   tamount.val(totalPurchAmount);
+  discamt.val(discount);
   usalprice.val(sale_price);
 
   unitsalamt.val(unit_sale_price);

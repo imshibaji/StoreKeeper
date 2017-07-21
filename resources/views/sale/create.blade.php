@@ -3,25 +3,30 @@
 @section('content')
 <div class="container">
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-5">
       <h3>Sales Page</h3>
+    </div>
+    <div class="col-md-4">
+      <h3></h3>
     </div>
     <div class="col-md-3">
       <div class="btn-group btn-group-justified">
         <a href="{{url('sales')}}" class="btn btn-info">Details</a>
-        <a href="{{url('dashboard')}}" class="btn btn-primary">Back</a>
+        @if (Auth::user()->type == "admin")
+            <a href="{{url('dashboard')}}" class="btn btn-primary">Back</a>
+        @endif
       </div>
     </div>
   </div>
 
-<form action="{{url('sales')}}" method="post">
-  {{csrf_field()}}
+
   <div class="row">
     <div class="col-md-4">
       @include('sale.parts.sales-item-add-part')
     </div>
 
-
+    <form action="{{url('sales')}}" method="post">
+      {{csrf_field()}}
     <div class="col-md-8">
       {{-- <dl class="dl-horizontal">
         <dt>Search Sale By ID: </dt>
@@ -120,27 +125,30 @@
         </tr>
       </table>
       </div>
-    </div>
-  </div>
 
-  <div class="col-md-4 col-md-offset-6">
-    <div class="input-group">
-      <span class="input-group-addon">Trasaction Mode</span>
-      <select name="tmode" class="form-control">
-        <option value="cash">Cash</option>
-        <option value="card">Card</option>
-        <option value="cheque">Cheque</option>
-      </select>
+      <div class="row">
+      <div class="col-md-6 col-md-offset-2">
+        <div class="input-group">
+          <span class="input-group-addon">Trasaction Mode</span>
+          <select name="tmode" class="form-control">
+            <option value="cash">Cash</option>
+            <option value="card">Card</option>
+            <option value="cheque">Cheque</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="input-group text-right">
+          <button class="btn btn-success" type="submit">Save Sales</button>
+          <a href="{{url('order/clear')}}" class="btn btn-danger">Clear</a>
+        </div>
+      </div>
+    </div>
+    </div>
+    </form>
+
     </div>
   </div>
-  <div class="col-md-2">
-    <div class="input-group text-right">
-      <button class="btn btn-success" type="submit">Save Sales</button>
-      <a href="{{url('order/clear')}}" class="btn btn-danger">Clear</a>
-    </div>
-  </div>
-</div>
-</form>
 @endsection
 
 

@@ -15,13 +15,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('dashboard', function(){
-  return view('dashboard');
-});
+Route::get('dashboard', 'ReportsController@dashboard')->middleware('auth');
+
+Route::get('type/{id}/{type?}', 'SettingsController@setType')->middleware('auth');
+
 
 Route::resource('stock', 'StocksController');
 
 Route::resource('sales', 'SalesController');
+
+Route::resource('reports','ReportsController');
+
+Route::resource('settings', 'SettingsController');
+
+Route::get('users', function(){
+  return view('user.users');
+})->middleware('auth');
 
 Route::prefix('order')->group(function () {
   Route::get('{id}', 'SalesController@order')->where('id', '[0-9]+');
@@ -33,19 +42,20 @@ Route::prefix('order')->group(function () {
 });
 
 
+Route::get('excel/{start?}/{end?}', 'ReportsController@excel')->middleware('auth');
 
 
-Route::get('view-sales', function(){
-  return view('sale.view-sales');
-});
-
-Route::get('reports', function(){
-  return view('report.reports');
-});
+use \Milon\Barcode\DNS1D;
 
 Route::get('barcode', function(){
-  echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG("Shibaji Debnath", "C128",1,33) . '" alt="barcode"   />';
-});
+  //echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG("Shibaji Debnath", "C128",1,33) . '" alt="barcode"   />';
+
+
+  $d = new DNS1D();
+  echo $d->get("7", "C128",1,33);
+
+
+})->middleware('auth');
 
 Auth::routes();
 

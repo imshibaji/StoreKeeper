@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Sale;
 use App\Stock;
+use App\Report;
+use App\Setting;
 use Illuminate\Http\Request;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 use Darryldecode\Cart\CartCondition as Condition;
 
 class SalesController extends Controller
 {
+    public function __construct(){
+      $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -47,7 +52,7 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
-
+      if($request->units != 0){
         $sale = new Sale();
         $sale->name = $request->odname;
         $sale->details = $request->oddetails;
@@ -61,12 +66,21 @@ class SalesController extends Controller
 
         $sale->save();
 
+
+        // Report Gen
+        $report = new Report();
+
+        $report->date = ''.date('d-m-Y');
+
         $details = json_decode($request->oddetails, true);
 
+        $datails = "SID:$sale->id, <<";
         foreach ($details as $dt) {
             $stock = Stock::find($dt['id']);
             $aunits = $stock->unit - $dt['quantity'];
-            //echo $stock->name.', Qty: '.$stock->unit.", Availiable: ".$aunits;
+
+            $datails .= "Name: ".$stock->name.', Qty: '.$dt['quantity'].", Tax: ".$stock->saleTax.", Discount: ".$stock->saleDisount.", Unit Price: ".$stock->unitSaleAmt;
+
             if($aunits>0)
               $stock->unit = $aunits;
             else{
@@ -75,7 +89,16 @@ class SalesController extends Controller
             $stock->save();
         }
 
-        return redirect('sales');
+        $datails .= ">> , Extra Added: ".$request->total_tax.", Extra Discount: ".$request->total_discount.", Trans. Mode:".$request->tmode;
+
+        $report->details = $datails;
+        $report->type = "sale";
+        $report->amount = $request->put_total;
+        $report->drcr = "cr";
+        $report->save();
+        return redirect('sales/'.$sale->id);
+      }
+      return redirect('sales/create');
     }
 
     /**
@@ -86,7 +109,8 @@ class SalesController extends Controller
      */
     public function show(Sale $sale)
     {
-
+      $set = Setting::find(1);
+      return view('sale.view',['sale'=>$sale, 'set'=>$set]);
     }
 
     /**

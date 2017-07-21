@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Stock;
 use Illuminate\Http\Request;
+use App\Report;
+use App\Setting;
 
 class StocksController extends Controller
 {
+    public function __construct(){
+      $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,6 +19,7 @@ class StocksController extends Controller
      */
     public function index()
     {
+
 
         return view('stock.stocks',['stocks'=>Stock::all()->sortByDesc("created_at")]);
     }
@@ -25,7 +31,8 @@ class StocksController extends Controller
      */
     public function create()
     {
-        return view('stock.create');
+        $set = Setting::find(1);
+        return view('stock.create', ['profit'=>$set->sales_profit, 'tax'=>$set->global_tax] );
     }
 
     /**
@@ -53,6 +60,19 @@ class StocksController extends Controller
 
         $stock->save();
 
+        // Report Gen
+        $report = new Report();
+
+        $report->date = ''.date('d-m-Y');
+
+        $datails = "PID: $stock->id, Name: $request->name, Description: $request->desc, Units: $request->units, Price per Unit Rs. $request->upurprice";
+
+        $report->details = $datails;
+        $report->type = "purchase";
+        $report->amount = $request->tamount;
+        $report->drcr = "dr";
+        $report->save();
+
         return redirect("stock/$stock->id");
     }
 
@@ -64,7 +84,8 @@ class StocksController extends Controller
      */
     public function show(Stock $stock)
     {
-        return view('stock.view',['stock'=>$stock]);
+        $setting = Setting::find(1);
+        return view('stock.view',['stock'=>$stock, 'set' => $setting]);
     }
 
     /**

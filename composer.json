@@ -15,7 +15,8 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "league/flysystem-dropbox": "^1.0",
         "league/flysystem-sftp": "^1.0",
-        "milon/barcode": "^5.3"
+        "milon/barcode": "^5.3",
+        "maatwebsite/excel": "~2.1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
