@@ -40,7 +40,7 @@
 
         <dl class="dl-horizontal">
           <dt>Product Details</dt>
-          <dd>{{ $stock->details }}</dd>
+          <dd>{{ $stock->description }}</dd>
         </dl>
 
         <dl class="dl-horizontal">

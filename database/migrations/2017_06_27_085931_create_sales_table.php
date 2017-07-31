@@ -19,9 +19,14 @@ class CreateSalesTable extends Migration
             $table->json("details");
             $table->integer('unit');
             $table->float('netAmt', 8,2);
-            $table->float('tax', 8, 2);
-            $table->float('discount', 8,2);
+            $table->float('cgstPercent', 8, 2);
+            $table->float('cgstAmt', 8, 2);
+            $table->float('sgstPercent', 8, 2);
+            $table->float('sgstAmt', 8, 2);
+            $table->float('discountPercent', 8,2);
+            $table->float('discountAmt', 8,2);
             $table->float('totalAmt', 8,2);
+            $table->string('status');
             $table->string('tmode');
 
             $table->integer('user_id')->unsigned();

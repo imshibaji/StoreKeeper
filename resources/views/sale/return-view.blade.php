@@ -4,7 +4,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8">
-      <h3>Sales Page</h3>
+      <h3>Return Page</h3>
     </div>
     <div class="col-md-4">
       <div class="btn-group btn-group-justified">
@@ -21,7 +21,7 @@
   <div id="printDiv" class="row">
 
     <div class="col-md-6" style="float:left">
-      <h1>Invoice</h1>
+      <h1>Return Invoice</h1>
     </div>
     <div class="col-md-6 text-right" style="float:right">
       <h3>{{$set->business_name}}</h3>

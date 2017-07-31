@@ -23,6 +23,7 @@ Route::get('type/{id}/{type?}', 'SettingsController@setType')->middleware('auth'
 Route::resource('stock', 'StocksController');
 
 Route::resource('sales', 'SalesController');
+Route::get('return/{id}', 'SalesController@returnShow');
 
 Route::resource('reports','ReportsController');
 
@@ -34,6 +35,9 @@ Route::get('users', function(){
 
 Route::prefix('order')->group(function () {
   Route::get('{id}', 'SalesController@order')->where('id', '[0-9]+');
+  Route::get('return/{sid}/{id}', 'SalesController@orderReturn')->where(['sid'=>'[0-9]+', 'id'=> '[0-9]+']);
+  Route::get('return/remove/{sid}/{id}', 'SalesController@deleteOrderReturn')->where(['sid'=>'[0-9]+', 'id'=> '[0-9]+']);
+
   Route::get('clear', 'SalesController@clearOrder');
   Route::get('view', 'SalesController@viewOrder');
   Route::get('remove/{id}', 'SalesController@deleteOrder')->where('id', '[0-9]+');

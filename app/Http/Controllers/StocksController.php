@@ -32,7 +32,7 @@ class StocksController extends Controller
     public function create()
     {
         $set = Setting::find(1);
-        return view('stock.create', ['profit'=>$set->sales_profit, 'tax'=>$set->global_tax] );
+        return view('stock.create', ['profit'=>$set->sales_profit] );
     }
 
     /**

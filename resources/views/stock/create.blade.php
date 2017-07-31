@@ -180,7 +180,7 @@ function printDiv(divName) {
 $(document).ready(function(){
   $('#units').val(0);
   $('#upurprice').val(0);
-  $('#tax-percent').val({{$tax}});
+  $('#tax-percent').val(0);
   calculation();
 });
 

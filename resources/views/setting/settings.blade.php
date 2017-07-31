@@ -30,16 +30,24 @@
           <td><input type="text" class="form-control" name="phone" value="{{ $set->business_phone_no }}" readonly/></td>
         </tr>
         <tr>
-          <td>Business Account No</td>
-          <td><input type="text" class="form-control" name="account" value="{{ $set->bank_account_info }}" readonly/></td>
+          <td>GST No</td>
+          <td><input type="text" class="form-control" name="account" value="{{ $set->gst_no }}" readonly/></td>
         </tr>
         <tr>
           <td>Business Profit By Percent</td>
           <td><input type="text" class="form-control" name="profit" value="{{  $set->sales_profit }}" readonly/></td>
         </tr>
         <tr>
-          <td>Business Global Tax</td>
-          <td><input type="text" class="form-control" name="tax" value="{{ $set->global_tax }}" readonly/></td>
+          <td>Discount by %</td>
+          <td><input type="text" class="form-control" name="discount" value="{{ $set->discount }}" readonly /></td>
+        </tr>
+        <tr>
+          <td>CGST by %</td>
+          <td><input type="text" class="form-control" name="cgst" value="{{ $set->cgst }}" readonly/></td>
+        </tr>
+        <tr>
+          <td>SGST by %</td>
+          <td><input type="text" class="form-control" name="sgst" value="{{ $set->sgst }}" readonly/></td>
         </tr>
         <tr>
           <td>&nbsp;</td>

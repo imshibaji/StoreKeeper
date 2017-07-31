@@ -4,7 +4,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-5">
-      <h3>Sales Page</h3>
+      <h3>Sales Return Page</h3>
     </div>
     <div class="col-md-4">
       <h3></h3>
@@ -22,10 +22,11 @@
 
   <div class="row">
     <div class="col-md-4">
-      @include('sale.parts.sales-item-add-part')
+      @include('sale.parts.sales-item-return', ['sale'=>$sale])
     </div>
 
-    <form action="{{url('sales')}}" method="post">
+    <form action="{{url('sales/'.$sale->id)}}" method="post">
+      {{ method_field('PUT') }}
       {{csrf_field()}}
     <div class="col-md-8">
       {{-- <dl class="dl-horizontal">
@@ -37,7 +38,7 @@
       <table class="table table-bordered" style="margin:0px; padding:0px">
         <thead>
           <tr>
-            <th class="col-xs-8">Sales Details</th>
+            <th class="col-xs-8">Return Details</th>
             <th class="col-xs-1">Qnt.</th>
             <th class="col-xs-2">Price</th>
             <th class="col-xs-1">Actions</th>
@@ -49,7 +50,7 @@
               Order Name:
             </div>
             <div class="col-xs-8">
-              <input type="text" id="odname" name="odname" class="form-control input-sm" readonly />
+              <input type="text" id="odname" name="odname" class="form-control input-sm" value="{{ $sale->name }}" readonly />
               <input type="hidden" id="oddetails" name="oddetails" class="form-control input-sm" value="{{$orders}}" />
             </div>
           </th>
@@ -73,7 +74,7 @@
               </td>
               <td class="col-xs-2 text-right">{{ $order->getPriceSum() }}</td>
               <td class="col-xs-1 text-center">
-                <a href="{{url('order/remove/'.$order->id)}}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+                <a href="{{url('order/return/remove/'.$sale->id.'/'.$order->id)}}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
               </td>
             </tr>
           @endforeach
@@ -134,17 +135,18 @@
           <td class="text-right"><input type="text" class="form-control text-right input-sm" id="sgst_amt" name="sgst_amt" value="0" /></td>
           <td class="col-xs-1">&nbsp;</td>
         </tr>
-        <tr>
-          <td class="text-right">Total Amount</td>
-          <td class="text-right">&nbsp;</td>
-          <td class="text-right" id="total">{{ $total }}</td>
-          <td>
-            <input type="hidden" id="units" name="units" value="{{ $totalQualtity }}" />
-            <input type="hidden" id="net_total" name="net_total" value="{{ $total }}" />
-            <input type="hidden" id="put_total" name="put_total" value="{{ $total }}" />
-            &nbsp;</td>
-        </tr>
-      </table>
+
+          <tr>
+            <td class="text-right">Total Amount</td>
+            <td>&nbsp;</td>
+            <td class="text-right" id="total">{{ $total }}</td>
+            <td>
+              <input type="hidden" id="units" name="units" value="{{ $totalQualtity }}" />
+              <input type="hidden" id="net_total" name="net_total" value="{{ $total }}" />
+              <input type="hidden" id="put_total" name="put_total" value="{{ $total }}" />
+              &nbsp;</td>
+          </tr>
+        </table>
       </div>
 
       <div class="row">
@@ -160,7 +162,7 @@
       </div>
       <div class="col-md-4">
         <div class="input-group text-right">
-          <button class="btn btn-success" type="submit">Save Sales</button>
+          <button class="btn btn-success" type="submit">Sales Return</button>
           <a href="{{url('order/clear')}}" class="btn btn-danger">Clear</a>
         </div>
       </div>
@@ -178,14 +180,22 @@
 <script>
 
 $(function(){
-  var date = new Date();
-  var day = date.getDate();
-  var mon = date.getMonth();
-  var yr = date.getFullYear();
-  var hr = date.getHours();
-  var min = date.getMinutes();
-  var sec = date.getSeconds();
-  $('#odname').val('ODR#'+day+''+mon+''+yr+''+hr+''+min+''+sec);
+  // var date = new Date();
+  // var day = date.getDate();
+  // var mon = date.getMonth();
+  // var yr = date.getFullYear();
+  // var hr = date.getHours();
+  // var min = date.getMinutes();
+  // var sec = date.getSeconds();
+  //$('#odname').val('ODR#'+day+''+mon+''+yr+''+hr+''+min+''+sec);
+
+  $('#cgst_percent').val({{ $sale->cgstPercent }});
+  $('#sgst_percent').val({{ $sale->sgstPercent }});
+  $('#discount_percent').val({{ $sale->discountPercent }});
+  discountCalculation();
+  sgstCalculation();
+  cgstCalculation();
+  addtion();
 });
 
 $('#cgst_amt').on('keyup keypress blur change', function(){
@@ -257,7 +267,7 @@ function addtion(){
   var discount = parseFloat($('#discount_amt').val());
   var total = ((net_total - discount) + cgst + sgst).toFixed(2);
 
-  console.log(net_total, tax, discount, total);
+  console.log(net_total, cgst, sgst, discount, total);
 
   $('#put_total').val(total);
   $('#total').html(total);

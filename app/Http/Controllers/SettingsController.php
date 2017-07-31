@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 
 class SettingsController extends Controller
 {
+    public function __construct(){
+      $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -30,14 +33,17 @@ class SettingsController extends Controller
     public function create()
     {
         $set = new Setting();
-        $set->business_name = "Demo Business";
-        $set->business_address = "Demo Location";
+        $set->business_name = "Medust Technology Pvt. Ltd.";
+        $set->business_address = "83/18B Dum Dum Road. Kolkata-700074";
         $set->business_phone_no = "8981009500";
-        $set->bank_account_info = "HDFC BANK";
+        $set->gst_no = "None";
         $set->sales_profit = 40;
-        $set->global_tax = 18;
+        $set->discount = 0;
+        $set->cgst = 0;
+        $set->sgst = 0;
 
         $set->save();
+        return 'Basic Settings is created..<a href="'.url('dashboard').'">Goto To Dashboard</a>';
     }
 
     /**
@@ -85,9 +91,11 @@ class SettingsController extends Controller
       $setting->business_name = $request->bname;
       $setting->business_address = $request->baddr;
       $setting->business_phone_no = $request->phone;
-      $setting->bank_account_info = $request->account;
+      $setting->gst_no = $request->gst_no;
       $setting->sales_profit = $request->profit;
-      $setting->global_tax = $request->tax;
+      $setting->discount = $request->discount;
+      $setting->cgst = $request->cgst;
+      $setting->sgst = $request->sgst;
       $setting->save();
 
       return redirect('settings');;
