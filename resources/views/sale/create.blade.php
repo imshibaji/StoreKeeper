@@ -186,6 +186,14 @@ $(function(){
   var min = date.getMinutes();
   var sec = date.getSeconds();
   $('#odname').val('ODR#'+day+''+mon+''+yr+''+hr+''+min+''+sec);
+
+  $('#cgst_percent').val({{ $set->cgst }});
+  $('#sgst_percent').val({{ $set->sgst }});
+  $('#discount_percent').val({{ $set->discount }});
+  discountCalculation();
+  sgstCalculation();
+  cgstCalculation();
+  addtion();
 });
 
 $('#cgst_amt').on('keyup keypress blur change', function(){

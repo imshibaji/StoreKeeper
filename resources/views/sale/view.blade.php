@@ -26,6 +26,9 @@
     <div class="col-md-6 text-right" style="float:right">
       <h3>{{$set->business_name}}</h3>
       <h4>{{$set->business_address}}</h4>
+      @if ($set->gst_no != 'None' && $set->gst_no != 'none')
+        <h4>GST Tin: {{$set->gst_no}}</h4>
+      @endif
       <h4>Phone: {{$set->business_phone_no}}</h4>
       <h4>Ref No: {{$sale->name}}</h4>
       <h4>Sale ID: {{$sale->id}}</h4>

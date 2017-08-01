@@ -42,8 +42,9 @@ class SalesController extends Controller
       $orders = Cart::getContent();
       $total = Cart::getTotal();
       $totalQualtity = Cart::getTotalQuantity();
+      $set = Setting::find(1);
 
-      return view('sale.create', compact('orders', 'total', 'totalQualtity'));
+      return view('sale.create', compact('orders', 'total', 'totalQualtity','set'));
     }
 
     /**
