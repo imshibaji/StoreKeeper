@@ -30,7 +30,7 @@
         </div>
         </td>
         <td>
-          <p>Sale ID: {{$sale->id}}, Ref No: {{$sale->name}}</p>
+          <p>Return ID: {{$sale->id}}, Ref No: {{$sale->name}}</p>
           @php
             $details = json_decode($sale->details, true);
           @endphp

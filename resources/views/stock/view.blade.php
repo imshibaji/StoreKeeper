@@ -95,15 +95,16 @@
             <div class="col-xs-12">
               {{-- Bar Code Gen --}}
               <div id="bar-code" style="text-align:center">
-              <div style="font-size:20px;text-align:center"><b>{{ $set->business_name }}</b></div>
+              <div style="font-size:25px;text-align:center"><b>{{ $set->business_name }}</b></div>
                 <div style="text-align:center">
                   <img src="data:image/png;base64,{{DNS1D::getBarcodePNG("$stock->id", "C128")}}" alt="barcode"/>
                 </div>
                 <div style="margin-top:-5px;text-align:center"> -- {{ $stock->id }} -- </div>
                 <div style="text-align:center">
-                  <strong>{{ $stock->name }}</strong> &nbsp;&nbsp;&nbsp;
+                  <h4><strong>{{ $stock->name }}</h4>
+                  <h5>{{ $stock->description }}</h5>
                   {{-- <del>Rs.{{ $stock->unitSaleAmt }}/-</del> --}}
-                  <strong>Rs.{{ $stock->unitSaleAmt - $stock->saleDisount }}/-</strong>
+                  <h4><strong>Amount Rs. {{ $stock->unitSaleAmt - $stock->saleDisount }}/-</strong></h4>
                 </div>
               </div>
               {{-- Bar Code Gen --}}
@@ -111,7 +112,7 @@
           </div>
 
           {{-- BarCode Preview --}}
-          <div id="preview" class="row" style="border:1px solid black; height:150px;text-align:center; margin-bottom:20px;">
+          <div id="preview" class="row" style="border:1px solid black; height:250px;text-align:center; margin-bottom:20px;">
             <h4>Downloadable Barcode Preview</h4>
           </div>
           {{-- BarCode Preview --}}
@@ -216,7 +217,7 @@ $("#btn-download").on('click', function () {
     var imgageData = capturedData.toDataURL("image/png");
     // Now browser starts downloading it instead of just showing it
     var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
-    $("#btn-download").attr("download", "screenshot.png").attr("href", newData);
+    $("#btn-download").attr("download", "barcode-{{$stock->id}}.png").attr("href", newData);
   }
 });
 

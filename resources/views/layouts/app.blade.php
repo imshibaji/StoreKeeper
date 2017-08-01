@@ -81,7 +81,7 @@
         <div class="app-footer">
         <div class="container">
           <div class="col-md-6">
-            <h4 class="text-left">StoreKeeper v 0.0.1</h4>
+            <h4 class="text-left">StoreKeeper v{{env('APP_VERSION')}}</h4>
           </div>
           <div class="col-md-6">
             <h4 class="text-right">Powered By: <a href="http://www.medust.com">MEDUST TECHNOLOGY PVT. LTD.</a></h4>

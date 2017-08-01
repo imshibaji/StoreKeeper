@@ -19,10 +19,10 @@ class CreateSettingsTable extends Migration
             $table->string('business_address');
             $table->string('business_phone_no');
             $table->string('gst_no');
-            $table->float('sales_profit', 3, 2);
-            $table->float('discount', 3, 2);
-            $table->float('cgst', 3, 2);
-            $table->float('sgst', 3, 2);
+            $table->float('sales_profit', 8, 2);
+            $table->float('discount', 8, 2);
+            $table->float('cgst', 8, 2);
+            $table->float('sgst', 8, 2);
             $table->timestamps();
         });
     }
