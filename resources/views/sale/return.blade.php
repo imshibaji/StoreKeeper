@@ -109,7 +109,7 @@
             <td class="text-right">Discount</td>
             <td class="text-right">
               <div class="input-group">
-                <input type="text" class="form-control text-right input-sm" id="discount_percent" name="discount_percent" value="0" /><div class="input-group-addon">%</div>
+                <input type="text" class="form-control text-right input-sm" id="discount_percent" name="discount_percent" value="{{ $sale->discountPercent }}" /><div class="input-group-addon">%</div>
               </div>
             </td>
             <td class="text-right"><input type="text" id="discount_amt" class="form-control text-right input-sm" name="discount_amt" value="0" /></td>
@@ -119,7 +119,7 @@
           <td class="col-xs-7 text-right">CGST</td>
           <td class="col-sx-2 text-right">
             <div class="input-group">
-              <input type="text" class="form-control text-right input-sm" id="cgst_percent" name="cgst_percent" value="0" /><div class="input-group-addon">%</div>
+              <input type="text" class="form-control text-right input-sm" id="cgst_percent" name="cgst_percent" value="{{ $sale->cgstPercent }}" /><div class="input-group-addon">%</div>
             </div>
           </td>
           <td class="col-xs-2 text-right"><input type="text" class="form-control text-right input-sm" id="cgst_amt" name="cgst_amt" value="0" /></td>
@@ -129,7 +129,7 @@
           <td class="text-right">SGST</td>
           <td class="text-right">
             <div class="input-group">
-              <input type="text" class="form-control text-right input-sm" id="sgst_percent" name="sgst_percent" value="0" /><div class="input-group-addon">%</div>
+              <input type="text" class="form-control text-right input-sm" id="sgst_percent" name="sgst_percent" value="{{ $sale->sgstPercent }}" /><div class="input-group-addon">%</div>
             </div>
           </td>
           <td class="text-right"><input type="text" class="form-control text-right input-sm" id="sgst_amt" name="sgst_amt" value="0" /></td>

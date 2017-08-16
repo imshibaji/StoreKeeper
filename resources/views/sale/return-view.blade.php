@@ -43,37 +43,38 @@
       </tr>
       @php
         $details = json_decode($sale->details, true);
-        $cunt = 0;
       @endphp
       @foreach ($details as $dt)
         <tr>
           <td>
-            {{$sale->created_at}}
+            {{ explode(' ',$sale->created_at)[0] }}
           </td>
           <td>
-            PID: {{$dt['id']}},
-            Item Name: {{$dt['name']}},
-            Quantity: {{$dt['quantity']}},
+            {{-- PID: {{$dt['id']}}, --}}
+            <strong>{{$dt['name']}}</strong>,
+            {{-- Quantity: {{$dt['quantity']}},
             Tax: {{$dt['attributes']['tax']}},
-            Discount: {{$dt['attributes']['discount']}},
-            Price: {{$dt['price']}},
+            Discount: {{$dt['attributes']['discount']}},--}}
+            Price: {{$dt['price']}}/Item,
         </td>
-        <td>
-          @if ($cunt<1)
-            {{$sale->unit}}
-          @endif
-
+        <td class="text-center">
+          {{$dt['quantity']}}
         </td>
         <td class="text-right">
-          @if ($cunt<1)
-            {{$sale->netAmt}}
-          @endif
+          {{ $dt['price'] * $dt['quantity']}}
         </td>
         </tr>
-        @php
-          $cunt++;
-        @endphp
       @endforeach
+      <tr>
+        <td> &nbsp; </td>
+        <td> &nbsp; </td>
+        <td class="text-center">
+            <h4>{{$sale->unit}}</h4>
+        </td>
+        <td class="text-right">
+            <h4>{{$sale->netAmt}}</h4>
+        </td>
+      </tr>
       <tr>
         <td colspan="3" class="text-right">CGST: {{$sale->cgstPercent}}%</td>
         <td class="text-right">{{$sale->cgstAmt}}</td>
@@ -91,7 +92,7 @@
         <td class="text-right">{{$sale->totalAmt}}</td>
       </tr>
       <tr>
-        <td colspan="3" class="text-right">Trasection Mode</td>
+        <td colspan="3" class="text-right">Transaction Mode</td>
         <td class="text-right">{{$sale->tmode}}</td>
       </tr>
     </table>

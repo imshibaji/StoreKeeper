@@ -22,16 +22,15 @@
     <div>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
-      <li class="tab active"><a href="{{ url('sales') }}">Sales</a></li>
-      <li class="tab"><a href="{{ url('sales/returns') }}">Returns</a></li>
+      <li class="tab"><a href="{{ url('sales') }}">Sales</a></li>
+      <li class="tab active"><a href="{{ url('sales/returns') }}">Returns</a></li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content">
-      <div class="tab-pane active" id="sales">
-        @include('sale.parts.sales-part', ['sales'=>$sales])
-      </div>
-    {{-- Sales End --}}
+      <div class="tab-pane active" id="returns">
+        @include('sale.parts.return-part', [])
+    </div>
   </div>
 
 </div>

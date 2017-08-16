@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
 
     /*
     |--------------------------------------------------------------------------
@@ -185,6 +185,7 @@ return [
         Darryldecode\Cart\CartServiceProvider::class,
 
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        App\Providers\AnnotationsServiceProvider::class,
     ],
 
     /*

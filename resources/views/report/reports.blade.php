@@ -88,6 +88,7 @@
           <th>{{ $totalDebit }}</th>
         </tr>
       </table>
+      {{ $reports->links() }}
     </div>
   </div>
 </div>

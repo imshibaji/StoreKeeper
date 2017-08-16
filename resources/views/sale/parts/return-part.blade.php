@@ -8,18 +8,18 @@
     </tr>
   </thead>
   <tbody>
-    @foreach ($returns as $sale)
+    @foreach ($returns as $return)
     <tr>
         <td class="text-center">
-          <h4>{{$sale->created_at}}</h4>
+          <h4>{{ explode(' ',$return->created_at)[0] }}</h4>
           <div class="row">
             <div class="col-xs-12">
               <div class="btn-group btn-group-justified">
-                <a href="{{url('sales/'.$sale->id)}}" class="btn btn-success btn-sm btn-block">View</a>
-                <a href="{{url('sales/'.$sale->id.'/edit')}}" class="btn btn-danger btn-sm btn-block">Rerurn</a>
+                <a href="{{url('return/'.$return->id)}}" class="btn btn-success btn-sm btn-block">Print View</a>
+                {{-- <a href="{{url('sales/'.$return->id.'/edit')}}" class="btn btn-danger btn-sm btn-block">Rerurn</a> --}}
               </div>
             </div>
-            {{-- <div class="col-xs-5">
+            {{--<div class="col-xs-5">
             <form class="form-group" action="{{url('sales/'.$sale->id)}}" method="post">
                {{ csrf_field() }}
                {{ method_field('DELETE') }}
@@ -30,23 +30,23 @@
         </div>
         </td>
         <td>
-          <p>Return ID: {{$sale->id}}, Ref No: {{$sale->name}}</p>
+          <p>Return ID: {{$return->id}}, Ref No: {{$return->name}}</p>
           @php
-            $details = json_decode($sale->details, true);
+            $details = json_decode($return->details, true);
           @endphp
           @foreach ($details as $dt)
             <h6>PID:{{$dt['id']}}, Name:{{$dt['name']}}, Qty:{{$dt['quantity']}}, Price:{{$dt['price']}}, ST:{{$dt['attributes']['tax']}}, Disc:{{$dt['attributes']['discount']}}, </h6>
           @endforeach
           <p>
-            {{$sale->cgstPercent}}% CGST Rs. {{$sale->cgstAmt}}/-, {{$sale->sgstPercent}}% SGST Rs. {{$sale->sgstAmt}}/-, {{$sale->discountPercent}}% Discount Rs. {{$sale->discountAmt}}/-
+            {{$return->cgstPercent}}% CGST Rs. {{$return->cgstAmt}}/-, {{$return->sgstPercent}}% SGST Rs. {{$return->sgstAmt}}/-, {{$return->discountPercent}}% Discount Rs. {{$return->discountAmt}}/-
           </p>
         </td>
         <td class="text-center">
-          <h3>{{$sale->unit}}</h3>
+          <h3>{{$return->unit}}</h3>
         </td>
         <td>
-          <h4>Net Amount Rs. {{$sale->netAmt}}/-</h4>
-          <h4>Total Amount Rs. {{$sale->totalAmt}}/-</h4>
+          {{-- <h4>Net Amount Rs. {{$return->netAmt}}/-</h4> --}}
+          <h4>Total Amount Rs. {{$return->totalAmt}}/-</h4>
         </td>
       </tr>
     @endforeach
@@ -74,3 +74,4 @@
 
   </tbody>
 </table>
+{{ $returns->links() }}

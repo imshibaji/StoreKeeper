@@ -91,6 +91,7 @@
       </tr> --}}
       </tbody>
     </table>
+    {{ $stocks->links() }}
   </div>
 
 </div>

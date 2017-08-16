@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
 
+
 class ReportsController extends Controller
 {
     private $start = "";
@@ -25,7 +26,10 @@ class ReportsController extends Controller
         $start_date = "";
         $end_date = "";
 
-        $reports = Report::all()->sortByDesc("created_at");
+        //$reports = Report::all()->sortByDesc("created_at");
+
+        $reports = Report::orderBy('created_at', 'desc')->paginate(5);
+
 
 
         $totalDebit =  Report::where('drcr', 'dr')->sum('amount');

@@ -19,9 +19,9 @@ class StocksController extends Controller
      */
     public function index()
     {
+        $stocks = Stock::orderBy('created_at', 'desc')->paginate(5);
 
-
-        return view('stock.stocks',['stocks'=>Stock::all()->sortByDesc("created_at")]);
+        return view('stock.stocks',['stocks'=>$stocks]);
     }
 
     /**

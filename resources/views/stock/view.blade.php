@@ -95,16 +95,16 @@
             <div class="col-xs-12">
               {{-- Bar Code Gen --}}
               <div id="bar-code" style="text-align:center">
-              <div style="font-size:25px;text-align:center"><b>{{ $set->business_name }}</b></div>
+              <div style="font-size:30px;text-align:center"><b>{{ $set->business_name }}</b></div>
                 <div style="text-align:center">
                   <img src="data:image/png;base64,{{DNS1D::getBarcodePNG("$stock->id", "C128")}}" alt="barcode"/>
                 </div>
                 <div style="margin-top:-5px;text-align:center"> -- {{ $stock->id }} -- </div>
                 <div style="text-align:center">
-                  <h4><strong>{{ $stock->name }}</h4>
-                  <h5>{{ $stock->description }}</h5>
+                  <h1><strong>{{ $stock->name }}</h1>
+                  <h3>{{ $stock->description }}</h3>
                   {{-- <del>Rs.{{ $stock->unitSaleAmt }}/-</del> --}}
-                  <h4><strong>Amount Rs. {{ $stock->unitSaleAmt - $stock->saleDisount }}/-</strong></h4>
+                  <h2><strong>Amount Rs. {{ $stock->unitSaleAmt - $stock->saleDisount }}/-</strong></h2>
                 </div>
               </div>
               {{-- Bar Code Gen --}}
@@ -112,7 +112,7 @@
           </div>
 
           {{-- BarCode Preview --}}
-          <div id="preview" class="row" style="border:1px solid black; height:250px;text-align:center; margin-bottom:20px;">
+          <div id="preview" class="row" style="border:1px solid black; height:350px;text-align:center; margin-bottom:20px;">
             <h4>Downloadable Barcode Preview</h4>
           </div>
           {{-- BarCode Preview --}}

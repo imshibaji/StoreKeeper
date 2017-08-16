@@ -26,10 +26,20 @@ class SalesController extends Controller
       if(!Cart::isEmpty())
           Cart::clear();
 
-        $sales = Sale::all()->sortByDesc("created_at");
-        $returns = ReturnIn::all()->sortByDesc("created_at");
+        $sales = Sale::orderBy("created_at", "desc")->paginate(5);
 
-        return view('sale.sales', compact('sales', 'returns'));
+        return view('sale.sales', compact('sales'));
+    }
+
+    public function returnList()
+    {
+      if(!Cart::isEmpty())
+          Cart::clear();
+
+        $sales = Sale::orderBy("created_at", "desc")->paginate(5);
+        $returns = ReturnIn::orderBy("created_at", "desc")->paginate(5);
+
+        return view('sale.returns', compact('returns'));
     }
 
     /**
@@ -184,11 +194,11 @@ class SalesController extends Controller
           }
           $sale->unit = (int)$sale->unit - $unitsReturn;
           $sale->details = json_encode($sdtails);
-          $sale->cgstPercent = (float)$sale->cgstPercent - $request->cgst_percent;
+          $sale->cgstPercent = $request->cgst_percent;
           $sale->cgstAmt = (float)$sale->cgstAmt - $request->cgst_amt;
-          $sale->sgstPercent = (float)$sale->sgstPercent - $request->sgst_percent;
+          $sale->sgstPercent = $request->sgst_percent;
           $sale->sgstAmt = (float)$sale->sgstAmt - $request->sgst_amt;
-          $sale->discountPercent = (float)$sale->discountPercent - $request->discount_percent;
+          $sale->discountPercent = $request->discount_percent;
           $sale->discountAmt = $sale->discountAmt - $request->discount_amt;
           $sale->netAmt = $sale->netAmt - $request->net_total;
           $sale->totalAmt = $sale->totalAmt - $request->put_total;

@@ -11,11 +11,11 @@
   @foreach ($sales as $sale)
   <tr>
       <td class="text-center">
-        <h4>{{$sale->created_at}}</h4>
+        <h4>{{ explode(' ',$sale->created_at)[0] }}</h4>
         <div class="row">
           <div class="col-xs-12">
             <div class="btn-group btn-group-justified">
-              <a href="{{url('sales/'.$sale->id)}}" class="btn btn-success btn-sm btn-block">View</a>
+              <a href="{{url('sales/'.$sale->id)}}" class="btn btn-success btn-sm btn-block">Print</a>
               <a href="{{url('sales/'.$sale->id.'/edit')}}" class="btn btn-danger btn-sm btn-block">Rerurn</a>
             </div>
           </div>
@@ -45,7 +45,7 @@
         <h3>{{$sale->unit}}</h3>
       </td>
       <td>
-        <h4>Net Amount Rs. {{$sale->netAmt}}/-</h4>
+        {{-- <h4>Net Amount Rs. {{$sale->netAmt}}/-</h4> --}}
         <h4>Total Amount Rs. {{$sale->totalAmt}}/-</h4>
       </td>
     </tr>
@@ -74,3 +74,4 @@
 
   </tbody>
 </table>
+{{ $sales->links() }}
